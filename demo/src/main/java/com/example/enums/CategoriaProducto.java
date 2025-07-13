@@ -1,6 +1,6 @@
 package com.example.enums;
 /**
- * enum CategoriaProducto
+ * enum de Categoria de los Producto disponibles
  * 
  * @author Menendez Anai
  */
