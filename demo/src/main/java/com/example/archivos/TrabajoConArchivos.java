@@ -1,4 +1,5 @@
-package com.example;
+package com.example.archivos;
+
 /**
  * Clase TrabajoArchivo
  * 

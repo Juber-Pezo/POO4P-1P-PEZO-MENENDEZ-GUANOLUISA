@@ -1,3 +1,4 @@
+package com.example.usuarios;
 public class Cliente {
     private String celular;
     private String direccion;
