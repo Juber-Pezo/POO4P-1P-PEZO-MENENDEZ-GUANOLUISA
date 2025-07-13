@@ -1,6 +1,7 @@
 package com.example.enums;
+
 /**
- * Enum EstadoPedido
+ * Enum de los estados del pedido
  * 
  * Representa los posibles estados en que puede encontrarse un pedido dentro del sistema de ventas.
  * 
