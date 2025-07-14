@@ -1,8 +1,9 @@
 package com.example;
 
-
 import java.time.LocalDate;
+import java.util.ArrayList;
 
+import com.example.archivos.ManejoArchivos;
 import com.example.enums.EstadoPedido;
 /**
  * Clase Pedido
@@ -11,18 +12,48 @@ import com.example.enums.EstadoPedido;
  * @version 1.0
  */
 public class Pedido {
-    private static int contadorPedidos = 1000;
+    
+    private static int contadorPedidos = cargarContador();
     private String codigoPedido;
     private String codigoProducto;
     private int cantidad;
     private double valorPagado;
     private String codigoRepartidor;
-    private EstadoPedido estadoPedido; // EN PREPARACION, EN RUTA, ENTREGADO (Enum)
+    private EstadoPedido estadoPedido; // EN_PREPARACION, EN_RUTA, ENTREGADO (Enum)
     private LocalDate fecha;
     private String codigoCliente;
 
-     /**
-     * Construcor de Pedido
+    /**
+     * Metodo guardar contador
+     * 
+     * Guardar la iteraccion del contador
+     */
+    public static void guardarContador(){
+        String s = Integer.toString(contadorPedidos); // o String.valueOf(contadorPedidos)
+        ManejoArchivos.EscribirArchivo("Contador.txt",s); // dejar asi-> linea 1: 1000 ; linea 2: (espacio vacio)
+    }
+
+    /**
+     * Metodo cargar contador
+     * 
+     * Realiza la iteracion a partir de la ultima iteracion
+     * 
+     * @return el numero de pedido actual
+     */
+    public static int cargarContador(){
+        ArrayList<String> lineas = ManejoArchivos.LeeFicheroCont("Contador.txt");
+        String ultima = lineas.get(lineas.size() - 1);
+        //System.out.println("Última línea: " + ultima);
+        contadorPedidos = Integer.parseInt(ultima);
+        contadorPedidos++;
+
+        guardarContador();
+
+        return contadorPedidos;
+    }
+
+    /**
+     * Constructor de Pedido ; para Pedidos.txt
      * 
      * @param fecha            Fecha del pedido
      * @param codigoProducto   Codigo del producto en el pedido
@@ -34,7 +65,7 @@ public class Pedido {
      */
     public Pedido(LocalDate fecha, String codigoProducto, int cantidad, double valorPagado, EstadoPedido estadoPedido,
     String codigoRepartidor, String codigoCliente) {
-        contadorPedidos=contadorPedidos+1;
+        
         this.codigoPedido = "PED" + (contadorPedidos);
         this.codigoProducto = codigoProducto;
         this.cantidad = cantidad;
@@ -68,6 +99,16 @@ public class Pedido {
         this.estadoPedido = EstadoPedido.EN_PREPARACION;
         this.codigoRepartidor = codigoRepartidor;
         this.codigoCliente = codigoCliente;
+    }
+
+    /**
+     * Metodo Sobreescrito toString
+     * 
+     * @return Informacion del pedido
+     */
+    @Override
+    public String toString(){
+        return codigoPedido +"|"+fecha+"|"+codigoProducto+"|"+cantidad+"|"+valorPagado+"|"+estadoPedido+"|"+codigoRepartidor;
     }
 
     // Metodos Getters y Setters
@@ -134,15 +175,6 @@ public class Pedido {
     public void setCodigoCliente(String codigoCliente) {
         this.codigoCliente=codigoCliente;
     }
-
-    /**
-     * Metodo Sobreescrito toString
-     * 
-     * @return Informacion del pedido
-     */
-    @Override
-    public String toString(){
-        return codigoPedido +"|"+fecha+"|"+codigoProducto+"|"+cantidad+"|"+valorPagado+"|"+estadoPedido+"|"+codigoRepartidor;
-    }
-
+    
+    
 }
